@@ -1,6 +1,6 @@
 body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url('./1.jpg');
+    url('./pics/1.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -14,6 +14,5 @@ body {
 .logo {
   flex-shrink: 0;
   height: 2.3em;
-  /* display: flex; */
   margin-right: 0.5rem;
 }

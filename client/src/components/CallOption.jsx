@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
     },
   },
-
   container: {
     width: '700px',
     margin: '20px 0',
@@ -55,7 +54,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '40px',
   },
   buttonsReject: {
-    // marginTop: 10,
     borderRadius: '40px',
   },
 }));

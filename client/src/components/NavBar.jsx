@@ -7,7 +7,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 
-import logo from '../3.svg';
+import logo from '../pics/3.svg';
 import '../styles.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,15 +15,8 @@ const useStyles = makeStyles((theme) => ({
     background: '#212121',
     padding: 2,
     display: 'flex',
-    // flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
-    // flexGrow: 1,
     marginRight: theme.spacing(2),
-    // border: '2px solid red',
-  },
-  buttons: {
-    // width: '100%',
   },
 }));
 

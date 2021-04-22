@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import {
+  ThemeProvider,
+  createMuiTheme,
+  makeStyles,
+} from '@material-ui/core/styles';
 
 import VideoPlayer from './components/VideoPlayer';
 import CallOption from './components/CallOption';
