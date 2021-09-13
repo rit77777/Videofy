@@ -12,11 +12,10 @@ import '../styles.css';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    background: '#212121',
+    background: '#470021',
     padding: 2,
     display: 'flex',
     justifyContent: 'space-between',
-    marginRight: theme.spacing(2),
   },
 }));
 

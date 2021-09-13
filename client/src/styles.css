@@ -1,9 +1,11 @@
 body {
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url('./pics/1.jpg');
+    url('./pics/3.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-size: cover;
+
+  background-size: 100% auto;
+  background-position: center top;
 }
 
 * {

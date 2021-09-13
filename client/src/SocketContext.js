@@ -11,10 +11,11 @@ const ContextProvider = ({ children }) => {
   const [me, setMe] = useState('');
   const [call, setCall] = useState({});
   const [callAccepted, setCallAccepted] = useState(false);
-  // const [callRejected, setCallRejected] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
   const [name, setName] = useState('');
   const [message, setMessage] = useState(false);
+  const [audioMuted, setAudioMuted] = useState(false);
+  const [videoMuted, setVideoMuted] = useState(false);
 
   const myVideo = useRef();
   const userVideo = useRef();
@@ -37,10 +38,16 @@ const ContextProvider = ({ children }) => {
     socket.on('callUser', ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
+
+    socket.on('close', () => {
+      setCallEnded(true);
+      connectionRef.current.destroy();
+      window.location.reload();
+    });
   }, []);
 
   const callUser = (id) => {
-    const peer = new Peer({ initiator: true, trickle: false, stream });
+    const peer = new Peer({ initiator: true, trickle: false, stream: stream });
 
     peer.on('signal', (data) => {
       socket.emit('callUser', {
@@ -67,7 +74,7 @@ const ContextProvider = ({ children }) => {
   const answerCall = () => {
     setCallAccepted(true);
 
-    const peer = new Peer({ initiator: false, trickle: false, stream });
+    const peer = new Peer({ initiator: false, trickle: false, stream: stream });
 
     peer.on('signal', (data) => {
       socket.emit('answerCall', { signal: data, to: call.from });
@@ -82,14 +89,6 @@ const ContextProvider = ({ children }) => {
     connectionRef.current = peer;
   };
 
-  const leaveCall = () => {
-    setCallEnded(true);
-
-    connectionRef.current.destroy();
-
-    window.location.reload();
-  };
-
   const shareScreen = () => {
     navigator.mediaDevices
       .getDisplayMedia({ cursor: true })
@@ -99,6 +98,7 @@ const ContextProvider = ({ children }) => {
           screenStream.getVideoTracks()[0],
           stream
         );
+
         myVideo.current.srcObject = screenStream;
         screenStream.getTracks()[0].onended = () => {
           connectionRef.current.replaceTrack(
@@ -111,18 +111,34 @@ const ContextProvider = ({ children }) => {
       });
   };
 
-  // function rejectCall() {
-  //   setCallRejected(true);
-  //   socket.current.emit('rejectCall', { to: call.from });
-  //   window.location.reload();
-  // }
+  const leaveCall = () => {
+    setCallEnded(true);
+
+    connectionRef.current.destroy();
+    socket.emit('close', { to: call.from });
+
+    window.location.reload();
+  };
+
+  const toggleAudio = () => {
+    if (stream) {
+      setAudioMuted(!audioMuted);
+      stream.getAudioTracks()[0].enabled = audioMuted;
+    }
+  };
+
+  const toggleVideo = () => {
+    if (stream) {
+      setVideoMuted(!videoMuted);
+      stream.getVideoTracks()[0].enabled = videoMuted;
+    }
+  };
 
   return (
     <SocketContext.Provider
       value={{
         call,
         callAccepted,
-        // callRejected,
         myVideo,
         userVideo,
         stream,
@@ -134,8 +150,11 @@ const ContextProvider = ({ children }) => {
         leaveCall,
         answerCall,
         message,
-        // rejectCall,
         shareScreen,
+        toggleAudio,
+        toggleVideo,
+        audioMuted,
+        videoMuted,
       }}
     >
       {children}

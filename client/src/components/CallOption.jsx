@@ -35,14 +35,14 @@ const useStyles = makeStyles((theme) => ({
   },
   margin: {
     marginTop: 20,
-    borderRadius: '40px',
+    borderRadius: '20px',
   },
   padding: {
     padding: 20,
   },
   paper: {
     padding: '20px 20px',
-    borderRadius: '40px',
+    borderRadius: '20px',
   },
   paperReject: {
     padding: '20px 20px',
@@ -51,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     marginTop: 20,
-    borderRadius: '40px',
+    borderRadius: '20px',
   },
   buttonsReject: {
-    borderRadius: '40px',
+    borderRadius: '20px',
   },
 }));
 
@@ -68,6 +68,8 @@ const CallOption = ({ children }) => {
     leaveCall,
     callUser,
     shareScreen,
+    toggleAudio,
+    toggleVideo,
   } = useContext(SocketContext);
   const [idToCall, setIdToCall] = useState('');
   const classes = useStyles();
@@ -77,7 +79,27 @@ const CallOption = ({ children }) => {
       {callAccepted && !callEnded ? (
         <Paper elevation={10} className={classes.paperReject}>
           <Grid container className={classes.gridContainer}>
-            <Grid item xs={12} md={6} className={classes.padding}>
+            <Grid item xs={6} md={3} className={classes.padding}>
+              <Button
+                onClick={toggleAudio}
+                variant='contained'
+                color='primary'
+                startIcon={<ScreenShareIcon fontSize='large' />}
+                fullWidth
+                className={classes.buttonsReject}
+              >
+                Mute Audio
+              </Button>
+              <Button
+                onClick={toggleVideo}
+                variant='contained'
+                color='primary'
+                startIcon={<ScreenShareIcon fontSize='large' />}
+                fullWidth
+                className={classes.buttonsReject}
+              >
+                Mute Video
+              </Button>
               <Button
                 onClick={shareScreen}
                 variant='contained'
@@ -117,7 +139,7 @@ const CallOption = ({ children }) => {
                   onChange={(e) => setName(e.target.value)}
                   fullWidth
                 />
-                {/* {console.log(me)} */}
+
                 <CopyToClipboard text={me} className={classes.margin}>
                   <Button
                     variant='contained'

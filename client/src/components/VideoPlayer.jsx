@@ -6,21 +6,29 @@ import { SocketContext } from '../SocketContext';
 const useStyles = makeStyles((theme) => ({
   video: {
     width: '550px',
-    borderRadius: '40px',
+    borderRadius: '20px',
     [theme.breakpoints.down('xs')]: {
       width: '300px',
     },
   },
   gridContainer: {
     justifyContent: 'center',
+    flexDirection: 'row',
     [theme.breakpoints.down('xs')]: {
       flexDirection: 'column',
     },
+    gridGap: '0 10px',
+    gridAutoRows: '10px',
   },
-  paper: {
+  myContainer: {
     padding: '4px',
     margin: '10px',
-    borderRadius: '40px',
+    borderRadius: '20px',
+  },
+  userContainer: {
+    padding: '4px',
+    margin: '10px',
+    borderRadius: '20px',
   },
   text: {
     marginLeft: '30px',
@@ -28,22 +36,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VideoPlayer = () => {
-  const {
-    name,
-    callAccepted,
-    myVideo,
-    userVideo,
-    callEnded,
-    stream,
-    call,
-    // callRejected,
-  } = useContext(SocketContext);
+  const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } =
+    useContext(SocketContext);
   const classes = useStyles();
 
   return (
     <Grid container className={classes.gridContainer}>
       {stream && (
-        <Paper className={classes.paper}>
+        <Paper className={classes.myContainer}>
           <Grid item xs={12} md={6}>
             <Typography className={classes.text} variant='h5'>
               {name || 'You'}
@@ -58,9 +58,8 @@ const VideoPlayer = () => {
           </Grid>
         </Paper>
       )}
-      {/* {!callRejected && callAccepted && !callEnded && ( */}
       {callAccepted && !callEnded && (
-        <Paper className={classes.paper}>
+        <Paper className={classes.userContainer}>
           <Grid item xs={12} md={6}>
             <Typography className={classes.text} variant='h5'>
               {call.name || 'User'}

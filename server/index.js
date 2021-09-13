@@ -35,9 +35,9 @@ io.on('connection', (socket) => {
     io.to(data.to).emit('callAccepted', data.signal);
   });
 
-  // socket.on('rejectCall', (data) => {
-  //   io.to(data.to).emit('rejectCall');
-  // });
+  socket.on('close', (data) => {
+    io.to(data.to).emit('close');
+  });
 });
 
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
